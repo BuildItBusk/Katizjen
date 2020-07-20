@@ -6,27 +6,34 @@
     @for (int c = 0; c < _numCols; c++) {
         int rr = r; // Row of the specific div
         int cc = c; // Column of the specifc div
-        <div class="box"><div class="inner" style="background-color: @(GetColor(rr,cc));" @onclick="() => ChangeColor(rr, cc)">@((r*_numRows+c).ToString())</div></div>
+        <div class="box"><div class="inner" style="background-color: @(GetColor(rr,cc));" @onclick="() => ChangeColorOfElement(rr, cc)">@((r*_numRows+c).ToString())</div></div>
     }
     </div>
 }
 </div>
 
+<button @onclick='() => ChangeActiveColor("#FF0000")'>Red</button>
+
 @code{
     private const int _numRows = 20;
     private const int _numCols = 20;
+    private string _activeColor = "#000000";
     private string[,] _colors = new string[_numRows,_numCols];
 
     protected override void OnInitialized() {
         for(int r = 0; r < _colors.GetLength(0); r++) {
             for(int c = 0; c < _colors.GetLength(1); c++) {
-                _colors[r, c] = "#FF0000";
+                _colors[r, c] = "#666666";
             }
         }
     }
 
-    private void ChangeColor(int r, int c) {
-        _colors[r,c] = "#0000FF";
+    private void ChangeActiveColor(string color) {
+        _activeColor = color;
+    }
+
+    private void ChangeColorOfElement(int r, int c) {
+        _colors[r,c] = _activeColor;
     }
 
     public string GetColor(int r, int c) {
