@@ -1,11 +1,12 @@
 .grid {
     background: black;
     padding: 1px;
+    max-width: 80vh;
+    margin: 0 auto;
   }
   
   .gridrow {
       display: flex;
-      width: 100%;
   }
 
   .box {

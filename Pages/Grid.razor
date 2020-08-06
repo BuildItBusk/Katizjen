@@ -1,12 +1,27 @@
 @page "/grid"
 
+<svg>
+  <symbol id="cross">
+    <line x1="0" y1="0" x2="100" y2="100" stroke="red" stroke-width="20" />
+    <line x1="100" y1="0" x2="0" y2="100" stroke="red" stroke-width="20" />                
+  </symbol>'
+</svg>
+
 <div class="grid">
 @for (int r = 0; r < _numRows; r++) {
     <div class="gridrow">
     @for (int c = 0; c < _numCols; c++) {
         int rr = r; // Row of the specific div
         int cc = c; // Column of the specifc div
-        <div class="box"><div class="inner">@(c + r * _numRows)</div></div>
+        <div class="box">
+            <div class="inner" @onclick="() => FillElement(rr, cc)">
+                @if(_isFilled[rr, cc]){ 
+                    <svg viewbox="0 0 100 100" width="100%" height="auto">
+                        <use xlink:href="#cross"/>
+                    </svg>
+                }
+            </div>
+        </div>
     }
     </div>
 }
@@ -17,6 +32,8 @@
     private const int _numCols = 20;
     private string _activeColor = "#000000";
     private string[,] _colors = new string[_numRows,_numCols];
+
+    private bool[,] _isFilled = new bool[_numRows, _numCols];
 
     protected override void OnInitialized() {
         for(int r = 0; r < _colors.GetLength(0); r++) {
@@ -30,6 +47,10 @@
         _activeColor = color;
     }
 
+    private void FillElement(int r, int c){
+        _isFilled[r, c] = !_isFilled[r, c];
+    }
+    
     private void ChangeColorOfElement(int r, int c) {
         _colors[r,c] = _activeColor;
     }
