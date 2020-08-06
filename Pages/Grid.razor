@@ -2,17 +2,15 @@
 
 <div class="grid">
 @for (int r = 0; r < _numRows; r++) {
-    <div class="row">
+    <div class="gridrow">
     @for (int c = 0; c < _numCols; c++) {
         int rr = r; // Row of the specific div
         int cc = c; // Column of the specifc div
-        <div class="box"><div class="inner" style="background-color: @(GetColor(rr,cc));" @onclick="() => ChangeColorOfElement(rr, cc)">@((r*_numRows+c).ToString())</div></div>
+        <div class="box"><div class="inner">@(c + r * _numRows)</div></div>
     }
     </div>
 }
 </div>
-
-<button @onclick='() => ChangeActiveColor("#FF0000")'>Red</button>
 
 @code{
     private const int _numRows = 20;
