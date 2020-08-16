@@ -1,0 +1,19 @@
+@using katizjen.Data
+
+<label>
+    Select color:
+    <select @onchange="ChangeSymbol">
+        <option value="">Select color ...</option>
+        <option value="#FF0000">Red</option>
+        <option value="#00FF00">Green</option>
+        <option value="#0000FF">Blue</option>
+    </select>
+</label>
+
+@code {
+    private Symbol symbol = new Symbol();
+
+    private void ChangeSymbol(ChangeEventArgs e) {
+        symbol.ColorCode = e.Value.ToString();
+    } 
+}
