@@ -1,9 +1,11 @@
 @page "/grid"
 
+@inject IJSRuntime JSRuntime
+
 <svg>
   <symbol id="cross">
-    <line x1="0" y1="0" x2="100" y2="100" stroke="red" stroke-width="20" />
-    <line x1="100" y1="0" x2="0" y2="100" stroke="red" stroke-width="20" />                
+    <line x1="0" y1="0" x2="100" y2="100" stroke="@_activeColor" stroke-width="20" />
+    <line x1="100" y1="0" x2="0" y2="100" stroke="@_activeColor" stroke-width="20" />                
   </symbol>
 </svg>
 
@@ -39,12 +41,15 @@
 
     private bool[,] _isFilled = new bool[_numRows, _numCols];
 
-    protected override void OnInitialized() {
+    protected async override Task OnInitializedAsync() {
         for(int r = 0; r < _colors.GetLength(0); r++) {
             for(int c = 0; c < _colors.GetLength(1); c++) {
                 _colors[r, c] = "#666666";
             }
         }
+
+        var cookie = await JSRuntime.InvokeAsync<object>("blazorExtensions.ReadCookie", "Color");
+        _activeColor = cookie.ToString();
     }
 
     private void ChangeActiveColor(string color) {

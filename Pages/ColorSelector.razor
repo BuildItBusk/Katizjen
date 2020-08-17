@@ -1,4 +1,4 @@
-@using katizjen.Data
+@inject IJSRuntime JSRuntime
 
 <label>
     Select color:
@@ -11,9 +11,20 @@
 </label>
 
 @code {
-    private Symbol symbol = new Symbol();
+    private String colorCode = "";
 
-    private void ChangeSymbol(ChangeEventArgs e) {
-        symbol.ColorCode = e.Value.ToString();
+     protected override async Task OnAfterRenderAsync(bool firstRender) {
+        var cookie = await JSRuntime.InvokeAsync<object>("blazorExtensions.ReadCookie", "Color");
+    }
+
+    private async Task ChangeSymbol(ChangeEventArgs e) {
+        colorCode = e.Value.ToString();   
+        await WriteCookeAsync();     
     } 
+
+    public async Task WriteCookeAsync() {
+        var test = await JSRuntime.InvokeAsync<object>("blazorExtensions.WriteCookie", "Color", colorCode, 7);
+    }
+
+    
 }
